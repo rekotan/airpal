@@ -15,6 +15,11 @@ gradle/
 *.ipr
 *.iws
 
+# Eclipse files
+.classpath
+.project
+.settings/
+
 # Maven artifacts
 target/
 dependency-reduced-pom.xml

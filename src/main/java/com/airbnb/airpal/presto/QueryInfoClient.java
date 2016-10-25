@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.net.HttpHeaders.ACCEPT;
 import static com.google.common.net.HttpHeaders.USER_AGENT;
 import static io.airlift.http.client.FullJsonResponseHandler.createFullJsonResponseHandler;
+import static io.airlift.http.client.HttpUriBuilder.uriBuilder;
 import static io.airlift.http.client.Request.Builder.prepareGet;
 
 @Slf4j
@@ -40,9 +41,16 @@ public class QueryInfoClient
         this.queryInfoHandler = createFullJsonResponseHandler(queryInfoCodec);
     }
 
-    public BasicQueryInfo from(URI infoUri)
+    public BasicQueryInfo from(URI infoUri, String queryId)
     {
         infoUri = checkNotNull(infoUri, "infoUri is null");
+        infoUri = uriBuilder()
+                .scheme(infoUri.getScheme())
+                .host(infoUri.getHost())
+                .port(infoUri.getPort())
+                .appendPath("/v1/query")
+                .appendPath(queryId)
+                .build();
 
         Request request = prepareGet()
                 .setHeader(USER_AGENT, USER_AGENT_VALUE)

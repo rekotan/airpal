@@ -156,7 +156,7 @@ public class Execution implements Callable<Job>
                     }
 
                     if ((results.getInfoUri() != null) && (jobState != JobState.FAILED)) {
-                        BasicQueryInfo queryInfo = queryInfoClient.from(results.getInfoUri());
+                        BasicQueryInfo queryInfo = queryInfoClient.from(results.getInfoUri(), results.getId());
 
                         if (queryInfo != null) {
                             queryStats = queryInfo.getQueryStats();
@@ -199,7 +199,7 @@ public class Execution implements Callable<Job>
 
         QueryResults finalResults = queryClient.finalResults();
         if (finalResults != null && finalResults.getInfoUri() != null) {
-            BasicQueryInfo queryInfo = queryInfoClient.from(finalResults.getInfoUri());
+            BasicQueryInfo queryInfo = queryInfoClient.from(finalResults.getInfoUri(), finalResults.getId());
 
             if (queryInfo != null) {
                 updateJobInfo(
